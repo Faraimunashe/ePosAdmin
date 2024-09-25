@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\AuthenticationController;
+use App\Http\Controllers\API\ItemController;
+use App\Http\Controllers\API\RateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +25,7 @@ Route::prefix('v1')->group(function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('logout', [AuthenticationController::class, 'logout']);
 
-        //Branches
-        //Route::resource('branch', BranchController::class);
+        Route::resource('items', ItemController ::class);
+        Route::resource('rates', RateController ::class);
     });
 });

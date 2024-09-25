@@ -96,7 +96,25 @@ class ItemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:'.Item::class],
+            'price' => ['required', 'numeric', 'min:0.01'],
+        ]);
+
+
+        try{
+
+            $item = Item::find($id);
+            $item->name = $request->name;
+            $item->price = $request->price;
+            $item->save();
+
+            //dd("here");
+
+            return back()->withErrors(['success' => 'Item updated successfully.']);
+        }catch(Exception $e){
+            return back()->withErrors(['error' => 'Exception error']);
+        }
     }
 
     /**
@@ -104,6 +122,13 @@ class ItemController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+
+            $item = Item::find($id);
+            $item->delete();
+            return back()->withErrors(['success' => 'Item deleted successfully.']);
+        }catch(Exception $e){
+            return back()->withErrors(['error' => 'Exception error']);
+        }
     }
 }
