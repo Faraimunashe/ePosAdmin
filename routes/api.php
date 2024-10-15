@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthenticationController;
 use App\Http\Controllers\API\ItemController;
 use App\Http\Controllers\API\RateController;
+use App\Http\Controllers\API\SaleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +28,6 @@ Route::prefix('v1')->group(function () {
 
         Route::resource('items', ItemController ::class);
         Route::resource('rates', RateController ::class);
+        Route::resource('sales', SaleController ::class);
     });
 });
