@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\CurrencyRate;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
@@ -79,6 +80,7 @@ class AuthenticationController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
+        $rates = CurrencyRate::all();
 
         if (is_null($user) || !Hash::check($request->password, $user->password))
         {
@@ -92,7 +94,8 @@ class AuthenticationController extends Controller
         $response = [
             'message' => 'Successfully logged in',
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'rates' => $rates
         ];
 
         return response()->json($response, 200);
