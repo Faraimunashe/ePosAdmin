@@ -39,9 +39,11 @@
         </div>
     </div>
 
+    <SuccessAlert v-if="$page.props.errors.success" :message="$page.props.errors.success" />
+    <ErrorAlert v-if="$page.props.errors.error" :message="$page.props.errors.error" />
 
-      <!-- Items Table Card -->
-      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <!-- Items Table Card -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
@@ -59,7 +61,7 @@
                 <Link :href="'/items/' + item.id" class="text-blue-600 hover:text-blue-900">
                     <i class="fas fa-eye"></i>
                 </Link>
-                <a href="/items/1/delete" class="text-red-600 hover:text-red-900 ml-4">
+                <a  @click="openDeleteModal(item.id)" href="#" class="text-red-600 hover:text-red-900 ml-4">
                     <i class="fas fa-trash-alt"></i>
                 </a>
               </td>
@@ -67,16 +69,25 @@
             <!-- Add more item rows here -->
           </tbody>
         </table>
-      </div>
+    </div>
       <Pagination :links="items.links"/>
+      <DeleteItemModal
+            :isOpen="isDeleteModalOpen"
+            :itemId="selectedItemId"
+            @close="closeDeleteModal"
+            @confirm-delete="handleDelete"
+        />
     </div>
   </template>
 
 <script>
 import Layout from "../Shared/Layout.vue";
-import Pagination from "../Shared/Components/Pagination.vue"
+import Pagination from "../Shared/Components/Pagination.vue";
 import { ref, watch } from 'vue';
-import { router } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3';
+import DeleteItemModal from "./Items/DeleteItemModal.vue";
+import SuccessAlert from "../Shared/Components/SuccessAlert.vue";
+import ErrorAlert from "../Shared/Components/ErrorAlert.vue";
 
 export default {
     layout: Layout,
@@ -84,10 +95,29 @@ export default {
         items: Array
     },
     components: {
-        Pagination
+        Pagination, DeleteItemModal, SuccessAlert, ErrorAlert
     },
     setup() {
         const search = ref('');
+        const isDeleteModalOpen = ref(false);
+        const selectedItemId = ref(null);
+
+        const openDeleteModal = (itemId) => {
+            selectedItemId.value = itemId;
+            isDeleteModalOpen.value = true;
+        };
+
+        const closeDeleteModal = () => {
+            isDeleteModalOpen.value = false;
+            selectedItemId.value = null;
+        };
+
+        const handleDelete = (itemId) => {
+            router.delete(`/items/${itemId}`, {
+                preserveState: true,
+                onFinish: () => closeDeleteModal(),
+            });
+        };
 
         watch(search, (value) => {
             router.get(
@@ -104,6 +134,11 @@ export default {
 
         return {
             search,
+            isDeleteModalOpen,
+            selectedItemId,
+            openDeleteModal,
+            closeDeleteModal,
+            handleDelete,
         };
     },
 }

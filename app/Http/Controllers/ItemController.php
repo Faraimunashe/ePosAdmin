@@ -15,10 +15,10 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $items = Item::paginate(10);
+        $items = Item::paginate(15);
         if(isset($search))
         {
-            $items = Item::where('name', 'LIKE', '%'.$search.'%')->paginate(10);
+            $items = Item::where('name', 'LIKE', '%'.$search.'%')->paginate(15);
         }
         return inertia('ItemsPage',[
             'items' => $items
@@ -97,7 +97,7 @@ class ItemController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:'.Item::class],
+            'name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0.01'],
         ]);
 

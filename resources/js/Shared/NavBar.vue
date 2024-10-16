@@ -20,7 +20,7 @@
                     <div class="relative group py-1.5">
                         <a href="#" class="text-blue-300 hover:text-white px-3 py-2 text-sm font-medium">Reports</a>
                         <div class="absolute left-0 hidden group-hover:block bg-white shadow-lg rounded-md mt-1 w-48">
-                            <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Sales Report</Link>
+                            <Link href="/sales" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Sales Report</Link>
                             <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Items Report</Link>
                             <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Cashiers Report</Link>
                         </div>
