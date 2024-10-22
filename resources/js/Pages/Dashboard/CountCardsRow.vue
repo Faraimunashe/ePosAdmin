@@ -1,35 +1,30 @@
 <template>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-      <div v-for="(currencyData, currency) in counts" :key="currency">
-        <!-- Total Items Sold Card -->
-        <div class="bg-white shadow-md rounded-lg p-6 flex items-center justify-between border-t-4 border-gray-500">
-          <div>
-            <h2 class="text-2xl font-semibold text-gray-900">{{ currency }} Sales</h2>
-            <p class="text-gray-600 mt-1 text-xl">${{ currencyData.total }}</p>
+    <div class="container mx-auto mb-4">
+      <div v-for="(currencyData, currency) in counts" :key="currency" class="flex flex-wrap mb-2">
+        <div class="w-full md:w-1/3 p-2">
+          <div class="bg-white shadow-lg rounded-lg p-4 text-center transition-transform transform hover:scale-105 hover:shadow-xl">
+            <h2 class="text-lg font-semibold text-gray-800">{{ currency }} Sales</h2>
+            <p class="text-2xl font-bold text-blue-600">${{ currencyData.total }}</p>
           </div>
-          <i class="fas fa-dollar-sign h-12 w-12 text-gray-500"></i>
         </div>
 
-        <!-- Total Cash Sales Card -->
-        <div class="bg-white shadow-md rounded-lg p-6 flex items-center justify-between border-t-4 border-gray-500">
-          <div>
-            <h2 class="text-2xl font-semibold text-gray-900">{{ currency }} Cash Sales</h2>
-            <p class="text-gray-600 mt-1 text-xl">${{ currencyData.CASH }}</p>
+        <div class="w-full md:w-1/3 p-2">
+          <div class="bg-white shadow-lg rounded-lg p-4 text-center transition-transform transform hover:scale-105 hover:shadow-xl">
+            <h2 class="text-lg font-semibold text-gray-800">{{ currency }} Cash Sales</h2>
+            <p class="text-2xl font-bold text-blue-600">${{ currencyData.CASH }}</p>
           </div>
-          <i class="fas fa-money-bill h-12 w-12 text-gray-500"></i>
         </div>
 
-        <!-- Total Card Sales Card -->
-        <div class="bg-white shadow-md rounded-lg p-6 flex items-center justify-between border-t-4 border-gray-500">
-          <div>
-            <h2 class="text-2xl font-semibold text-gray-900">{{ currency }} Card Sales</h2>
-            <p class="text-gray-600 mt-1 text-xl">${{ currencyData.EFT }}</p>
+        <div class="w-full md:w-1/3 p-2">
+          <div class="bg-white shadow-lg rounded-lg p-4 text-center transition-transform transform hover:scale-105 hover:shadow-xl">
+            <h2 class="text-lg font-semibold text-gray-800">{{ currency }} Card Sales</h2>
+            <p class="text-2xl font-bold text-blue-600">${{ currencyData.EFT }}</p>
           </div>
-          <i class="fas fa-credit-card h-12 w-12 text-gray-500"></i>
         </div>
       </div>
     </div>
-  </template>
+</template>
+
 
   <script>
   export default {
