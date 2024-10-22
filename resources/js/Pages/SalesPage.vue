@@ -1,9 +1,9 @@
 <template>
     <Head title="Sales" />
     <div class="max-w-7xl mx-auto px-4 py-6">
+        <h1 class="text-4xl font-semibold text-gray-900 mb-4 lg:mb-0">Sales Records</h1>
         <div class="flex flex-col lg:flex-row justify-between items-center mb-8 p-6 bg-white rounded-lg shadow-md">
-            <h1 class="text-4xl font-semibold text-gray-900 mb-4 lg:mb-0">Sales Records</h1>
-            <div class="flex flex-wrap items-center space-x-4">
+            <div class="flex flex-col lg:flex-row lg:space-x-4 space-y-4 lg:space-y-0 items-center w-full">
                 <input
                     v-model="search"
                     type="search"
@@ -13,23 +13,28 @@
                 <input
                     v-model="startDate"
                     type="date"
-                    class="px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+                    class="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
                 />
                 <input
                     v-model="endDate"
                     type="date"
-                    class="px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+                    class="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
                 />
-                <select v-model="currency" class="px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                <select v-model="currency" class="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
                     <option value="">Select Currency</option>
                     <option v-for="curr in currencies" :key="curr.id" :value="curr.currency_code">{{ curr.currency_code }}</option>
                 </select>
-                <select v-model="type" class="px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                <select v-model="type" class="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
                     <option value="">Select Type</option>
                     <option v-for="typ in trans_types" :key="typ.type" :value="typ.type">{{ typ.type }}</option>
                 </select>
+                <select v-model="cashier" class="w-full md:w-auto px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                    <option value="">Select Cashier</option>
+                    <option v-for="cas in cashiers" :key="cas.id" :value="cas.id">{{ cas.name }}</option>
+                </select>
             </div>
         </div>
+
 
 
         <!-- Existing SuccessAlert and ErrorAlert code -->
@@ -78,8 +83,9 @@ export default {
     layout: Layout,
     props: {
         sales: Array,
-        currencies: Array, // Prop for available currencies
-        trans_types: Array // Prop for available types
+        currencies: Array,
+        trans_types: Array,
+        cashiers: Array
     },
     components: {
         Pagination, SuccessAlert, ErrorAlert
@@ -90,11 +96,12 @@ export default {
         const endDate = ref('');
         const currency = ref('');
         const type = ref('');
+        const cashier = ref('');
 
-        watch([search, startDate, endDate, currency, type], () => {
+        watch([search, startDate, endDate, currency, type, cashier], () => {
             router.get(
                 '/sales',
-                { search: search.value, start_date: startDate.value, end_date: endDate.value, currency: currency.value, type: type.value },
+                { search: search.value, start_date: startDate.value, end_date: endDate.value, currency: currency.value, type: type.value, cashier: cashier.value },
                 {
                     preserveState: true,
                     preserveScroll: true,
@@ -109,6 +116,7 @@ export default {
             endDate,
             currency,
             type,
+            cashier,
         };
     },
 }

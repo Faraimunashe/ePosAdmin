@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CashierReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PosUserController;
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('items', ItemController::class);
     Route::resource('sales', SaleController::class);
     Route::resource('pos-users', PosUserController::class);
+    Route::resource('cashier-reports', CashierReportController::class);
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

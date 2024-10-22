@@ -22,7 +22,7 @@
                         <div class="absolute left-0 hidden group-hover:block bg-white shadow-lg rounded-md mt-1 w-48">
                             <Link href="/sales" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Sales Report</Link>
                             <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Items Report</Link>
-                            <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Cashiers Report</Link>
+                            <Link href="/cashier-reports" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Cashiers Report</Link>
                         </div>
                     </div>
 
