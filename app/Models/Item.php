@@ -12,4 +12,9 @@ class Item extends Model
     protected $table = 'epos.items';
     public $timestamps = false;
 
+    public function sale_items()
+    {
+        return $this->hasMany(SaleItem::class, 'item_id');
+    }
+
 }

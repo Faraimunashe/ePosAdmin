@@ -11,4 +11,9 @@ class SaleItem extends Model
 
     protected $table = 'epos.sale_items';
     public $timestamps = false;
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
 }
