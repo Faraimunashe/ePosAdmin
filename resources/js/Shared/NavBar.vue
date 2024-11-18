@@ -32,6 +32,7 @@
                         <div class="absolute left-0 hidden group-hover:block bg-white shadow-lg rounded-md mt-1 w-48">
                             <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Rates & Currencies</Link>
                             <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">POS Terminals</Link>
+                            <Link href="/users" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Admin Users</Link>
                             <Link href="/pos-users" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">POS Users</Link>
                             <Link href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">EFT Currencies</Link>
                         </div>

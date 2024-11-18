@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PosUserController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('items', ItemController::class);
     Route::resource('sales', SaleController::class);
+    Route::resource('users', UserController::class);
     Route::resource('pos-users', PosUserController::class);
     Route::resource('cashier-reports', CashierReportController::class);
 
