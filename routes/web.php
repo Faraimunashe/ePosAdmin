@@ -24,6 +24,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('pos-users', PosUserController::class);
     Route::resource('cashier-reports', CashierReportController::class);
+    Route::get('/exportpdf', [CashierReportController::class, 'exportPdf']);
+    // Route::get('/exportpdf', function () {
+    //     return "redirect()->route('login')";
+    // });
+
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

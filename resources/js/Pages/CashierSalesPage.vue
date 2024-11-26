@@ -51,6 +51,7 @@
                 <div class="flex flex-col w-full md:w-auto">
                     <div class="mt-6">
                         <button
+                            @click="exportPdf"
                             class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
                         >
                             Export to PDF
@@ -60,7 +61,7 @@
             </div>
         </div>
 
-
+        <!-- Summary Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <div
                 v-for="sum in totals"
@@ -71,6 +72,7 @@
             </div>
         </div>
 
+        <!-- Sales Table -->
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -130,16 +132,31 @@ export default {
         const type = ref('');
         const cashier = ref('');
 
+        const exportPdf = () => {
+                const params = new URLSearchParams({
+                start_date: startDate.value || '',
+                end_date: endDate.value || '',
+                currency: currency.value || '',
+                type: type.value || '',
+                cashier: cashier.value || '',
+            }).toString();
+
+            // Open the generated URL in a new browser window for download
+            window.location.href = `/exportpdf?${params}`
+        };
+
         watch([startDate, endDate, currency, type, cashier], () => {
-            router.get(
-                '/cashier-reports',
-                { start_date: startDate.value, end_date: endDate.value, currency: currency.value, type: type.value, cashier: cashier.value },
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                    replace: true
-                }
-            );
+            router.get('/cashier-reports', {
+                start_date: startDate.value,
+                end_date: endDate.value,
+                currency: currency.value,
+                type: type.value,
+                cashier: cashier.value
+            }, {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true
+            });
         });
 
         return {
@@ -148,7 +165,8 @@ export default {
             currency,
             type,
             cashier,
+            exportPdf,
         };
     },
-}
+};
 </script>
