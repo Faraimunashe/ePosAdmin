@@ -23,7 +23,7 @@
           </div>
 
           <div>
-            <label for="price" class="block text-gray-700 font-medium">Email Address <code class="text-red-500">*</code></label>
+            <label for="email" class="block text-gray-700 font-medium">Email Address <code class="text-red-500">*</code></label>
             <input
               v-model="form.email"
               id="email"
@@ -49,16 +49,28 @@
           </div>
 
           <div>
-            <label for="password" class="block text-gray-700 font-medium">Confirm Password <code class="text-red-500">*</code></label>
+            <label for="password_confirmation" class="block text-gray-700 font-medium">Confirm Password <code class="text-red-500">*</code></label>
             <input
               v-model="form.password_confirmation"
-              id="password"
+              id="password_confirmation"
               type="password"
               placeholder="Enter password confirmation"
               required
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 py-2 px-4 text-gray-900"
             />
             <span v-if="form.errors.password_confirmation" class="text-red-500 text-sm">{{ form.errors.password_confirmation }}</span>
+          </div>
+
+          <!-- Checkbox for POS Supervisor -->
+          <div>
+            <label class="inline-flex items-center text-gray-700 font-medium">
+              <input
+                v-model="form.is_pos_supervisor"
+                type="checkbox"
+                class="form-checkbox text-blue-600 border-gray-300 rounded shadow-sm focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+              />
+              <span class="ml-2">Is POS Supervisor?</span>
+            </label>
           </div>
 
           <!-- Submit Button -->
@@ -90,14 +102,12 @@
         </form>
       </div>
     </div>
-  </template>
-
+</template>
 <script>
 import Layout from "../../Shared/Layout.vue";
 import SuccessAlert from '../../Shared/Components/SuccessAlert.vue';
 import ErrorAlert from '../../Shared/Components/ErrorAlert.vue';
-
-export default {
+  export default {
     layout: Layout,
     components: {
         SuccessAlert, ErrorAlert
@@ -105,7 +115,7 @@ export default {
 }
 </script>
 
-  <script setup>
+<script setup>
   import { ref } from 'vue';
   import { useForm } from '@inertiajs/vue3';
 
@@ -113,7 +123,8 @@ export default {
     name: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
+    is_pos_supervisor: false,
   });
 
   const errors = ref({});
@@ -128,4 +139,4 @@ export default {
       }
     });
   };
-  </script>
+</script>

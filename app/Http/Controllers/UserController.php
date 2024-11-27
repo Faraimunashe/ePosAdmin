@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Supervisor;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -43,21 +44,32 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
+            'is_pos_supervisor' => 'sometimes|boolean',
         ]);
 
         try {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'is_pos_supervisor' => $request->has('is_pos_supervisor') ? $request->is_pos_supervisor : false,
             ]);
 
+            if($request->has('is_pos_supervisor') && $request->is_pos_supervisor == true)
+            {
+                $supervisor = new Supervisor();
+                $supervisor->admin_id = $user->id;
+                $supervisor->password = md5($request->password);
+                $supervisor->save();
+            }
+
             return back()->withErrors(['success' => 'User created successfully']);
-        }catch (\Exception $e) {
+        } catch (Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
 
     /**
      * Display the specified resource.
