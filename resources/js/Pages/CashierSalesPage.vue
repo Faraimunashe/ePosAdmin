@@ -93,15 +93,71 @@
                         <td class="py-4 px-6 text-sm text-gray-500">{{ sale.name }}</td>
                         <td class="py-4 px-6 text-sm text-gray-500">{{ sale.created_at }}</td>
                         <td class="py-4 px-6 text-sm font-medium">
-                            <Link :href="'/sales/' + sale.id" class="text-blue-600 hover:text-blue-900">
+                            <Button @click="showItemsModal(sale)" type="button" class="text-blue-600 hover:text-blue-900">
                                 <i class="fas fa-eye"></i>
-                            </Link>
+                                show items
+                            </Button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <Pagination :links="sales.links" />
+        <!-- Modal -->
+        <div v-if="isModalVisible" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-lg w-1/2 p-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">Sale Details</h2>
+                    <button
+                        @click="closeModal"
+                        class="text-gray-500 hover:text-gray-800"
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Sale Information -->
+                <div class="bg-gray-100 p-4 rounded-lg shadow-sm mb-6">
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold text-gray-800">Reference:</span> {{ selectedSale.reference }}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold text-gray-800">Total Amount:</span> ${{ selectedSale.amount }}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold text-gray-800">Currency:</span> {{ selectedSale.currency }}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold text-gray-800">Cashier:</span> {{ selectedSale.name }}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span class="font-semibold text-gray-800">Date:</span> {{ selectedSale.created_at }}
+                    </p>
+                </div>
+
+                <!-- Items Sold -->
+                <ul class="divide-y divide-gray-200 bg-white shadow-md rounded-lg">
+                    <li
+                        v-for="item in selectedSaleItems"
+                        :key="item.id"
+                        class="flex items-center justify-between p-4 hover:bg-gray-50"
+                    >
+                        <!-- Item Details -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">{{ item.item.name }}</h3>
+                            <p class="text-sm text-gray-500">Quantity: {{ item.qty }} | Unit Price: ${{ item.unit_price }}</p>
+                        </div>
+                        <!-- Total Price -->
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500">Total:</p>
+                            <p class="text-lg font-bold text-blue-600">${{ item.total_price }}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -131,6 +187,10 @@ export default {
         const currency = ref('');
         const type = ref('');
         const cashier = ref('');
+        //
+        const isModalVisible = ref(false);
+        const selectedSale = ref({});
+        const selectedSaleItems = ref([]);
 
         const exportPdf = () => {
                 const params = new URLSearchParams({
@@ -159,6 +219,16 @@ export default {
             });
         });
 
+        const showItemsModal = (sale) => {
+            selectedSale.value = sale; // Set the selected sale details
+            selectedSaleItems.value = sale.items || []; // Set the items for this sale
+            isModalVisible.value = true;
+        };
+
+        const closeModal = () => {
+            isModalVisible.value = false;
+        };
+
         return {
             startDate,
             endDate,
@@ -166,6 +236,11 @@ export default {
             type,
             cashier,
             exportPdf,
+            isModalVisible,
+            selectedSale,
+            selectedSaleItems,
+            showItemsModal,
+            closeModal,
         };
     },
 };

@@ -23,7 +23,7 @@ class CashierReportController extends Controller
         $type = $request->type;
         $cashier = $request->cashier;
 
-        $salesQuery = Sale::join("epos.users", "epos.users.id", "=", "epos.sales.user_id")
+        $salesQuery = Sale::with("items.item")->join("epos.users", "epos.users.id", "=", "epos.sales.user_id")
             ->select("epos.sales.id", "epos.sales.amount", "epos.sales.reference", "epos.sales.type", "epos.sales.created_at", "epos.users.name", "epos.sales.currency");
 
         $totalsQuery = DB::table('epos.sales')
@@ -137,7 +137,7 @@ class CashierReportController extends Controller
         $type = $request->type;
         $cashier = $request->cashier;
 
-        $salesQuery = Sale::join("epos.users", "epos.users.id", "=", "epos.sales.user_id")
+        $salesQuery = Sale::with("items.item")->join("epos.users", "epos.users.id", "=", "epos.sales.user_id")
             ->select("epos.sales.id", "epos.sales.amount", "epos.sales.reference", "epos.sales.type", "epos.sales.created_at", "epos.users.name", "epos.sales.currency");
 
         $totalsQuery = DB::table('epos.sales')
@@ -178,6 +178,8 @@ class CashierReportController extends Controller
 
 
         $sales = $salesQuery->get();
+
+        //dd($sales);
 
 
         $pdf = Pdf::loadView('pdf.sales', [
