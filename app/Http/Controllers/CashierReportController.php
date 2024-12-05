@@ -179,7 +179,8 @@ class CashierReportController extends Controller
 
         $sales = $salesQuery->get();
 
-        //dd($sales);
+        $totals = $totalsQuery->groupBy('currency')
+        ->get();
 
 
         $pdf = Pdf::loadView('pdf.sales', [
@@ -187,6 +188,7 @@ class CashierReportController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'generated_by' => auth()->user()->name,
+            'totals' => $totals
         ]);
 
         return $pdf->download('sales_report.pdf');
